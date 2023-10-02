@@ -11,9 +11,12 @@ mongoose.connect(mongo_url, () => {
 const app = express();
 app.use(express.json());
 app.get("/", (req, res) => {
+    res.status(500)
     res.send("Homepage!");
+    res.send("This API doesn't support get requests for now")
 })
 app.get("/random", (req, res) => {
+    res.status(200)
     quoteModel.find({ identifier: "identifier" }, (err, doc) => {
         if (!err) {
             const result = doc[Math.floor(Math.random() * doc.length)];
@@ -30,7 +33,9 @@ app.get("/random", (req, res) => {
 })
 
 app.get("/new", (req, res) => {
+    res.status(200)
     const responses = req.body;
+
     quoteModel.create({ author: responses.author, quote: responses.quote })
     res.send("Successfully added new quote!");
 })
